@@ -1,42 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Breakout 5x5 Game</title>
-  <style>
-    html {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;         /* 🚫 Ngăn cuộn toàn bộ */
-  touch-action: none;       /* 🚫 Chặn các hành động touch mặc định */
-  -webkit-overflow-scrolling: auto;
-}
-    body {
-      background: #f5f5f5;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-family: sans-serif;
-    }
-    canvas {
-      background: #222;
-      display: block;
-      margin-top: 20px;
-    }
-    #startBtn {
-      padding: 10px 20px;
-      font-size: 16px;
-      margin-top: 10px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <h2>Breakout 5x5 Game</h2>
-  <canvas id="gameCanvas" width="500" height="400"></canvas>
-  <button id="startBtn">Start Game</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Breakout 5x5 Game</title>
+    <style>
+      html {
+        margin: 0;
+        padding: 0;
+        overflow: hidden; /* 🚫 Ngăn cuộn toàn bộ */
+        touch-action: none; /* 🚫 Chặn các hành động touch mặc định */
+        -webkit-overflow-scrolling: auto;
+      }
+      body {
+        background: #f5f5f5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: sans-serif;
+      }
+      canvas {
+        background: #222;
+        width: 100%;
+        max-width: 600px;
+        aspect-ratio: 5 / 4;
+        display: block;
+        margin: 0 16px; /* ← Thêm margin trái phải ở đây */
+        border-radius: 10px; /* Gợi ý: bo góc cho đẹp hơn */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Gợi ý: bóng đổ */
+      }
+      #startBtn {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Breakout 5x5 Game</h2>
+    <canvas id="gameCanvas" width="500" height="400"></canvas>
+    <button id="startBtn">Start Game</button>
 
-  <script src="game.js"></script>
-</body>
+    <script src="game.js"></script>
+  </body>
 </html>
