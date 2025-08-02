@@ -54,6 +54,17 @@ function initGame() {
   }
 }
 
+canvas.addEventListener("touchmove", function (e) {
+  const touchX = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+  paddle.x = touchX - paddle.width / 2;
+
+  // Giới hạn trong canvas
+  if (paddle.x < 0) paddle.x = 0;
+  if (paddle.x + paddle.width > canvas.width) {
+    paddle.x = canvas.width - paddle.width;
+  }
+});
+
 function drawBricks() {
   bricks.forEach(brick => {
     if (!brick.broken) {
