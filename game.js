@@ -38,9 +38,9 @@ function initGame() {
 
   // Responsive setup
   config.brickWidth = canvas.width / config.cols;
-  config.brickHeight = canvas.height / 13;
+  config.brickHeight = canvas.height / 20;
   config.paddleWidth = canvas.width / 5;
-  config.ballSpeed = canvas.width / 150;
+  config.ballSpeed = canvas.width / 130;
 
   // Ball
   ball = {
