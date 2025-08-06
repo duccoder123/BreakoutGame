@@ -48,14 +48,7 @@ canvas {
   border-radius: 10px; /* Gợi ý: bo góc cho đẹp hơn */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Gợi ý: bóng đổ */
 }
-#gameCanvas {
-    width: 100%;
-    max-width: 600px;
-    aspect-ratio: 3 / 4;
-    background: #000;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  }
+
 
   #startBtn {
     margin-top: 1rem;
@@ -140,3 +133,17 @@ canvas {
     font-size: 1.25rem;
   }
 }
+@media (max-width: 480px) {
+    #gameHeader h1 {
+      font-size: 1.4rem;
+    }
+
+    #gameHeader h2 {
+      font-size: 1rem;
+    }
+
+    #startBtn {
+      font-size: 0.9rem;
+      padding: 0.5rem 1rem;
+    }
+  }
