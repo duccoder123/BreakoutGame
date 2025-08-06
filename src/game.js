@@ -1,13 +1,6 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
-function showWinModal() {
-  document.getElementById("winModal").style.display = "flex";
-}
 
-function closeWinModal() {
-  document.getElementById("winModal").style.display = "none";
-  initGame();
-}
 
 function resizeCanvas() {
   canvas.width = canvas.clientWidth;
@@ -48,7 +41,7 @@ function initGame() {
   config.brickWidth = canvas.width / config.cols;
   config.brickHeight = canvas.height / 20;
   config.paddleWidth = canvas.width / 5;
-  config.ballSpeed = canvas.width / 70;
+  config.ballSpeed = canvas.width / 120;
 
   // Ball
   ball = {
@@ -97,79 +90,101 @@ function initGame() {
 }
 // Modal
 function createWinModal() {
-  const modalOverlay = document.createElement('div');
-  modalOverlay.id = 'winModal';
-  modalOverlay.style.cssText = `
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
+  // Tạo thẻ style cho modal
+  const style = document.createElement("style");
+  style.textContent = `
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1rem;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    .modal-content h2 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+    .modal-content p {
+      white-space: pre-line;
+      line-height: 1.6;
+      color: #555;
+      font-size: 1rem;
+    }
+    .modal-content button {
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.5rem;
+      background-color: #2196f3;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .modal-content button:hover {
+      background-color: #1976d2;
+    }
+    @media (max-width: 480px) {
+      .modal-content {
+        padding: 1rem;
+      }
+      .modal-content p {
+        font-size: 0.95rem;
+      }
+      .modal-content h2 {
+        font-size: 1.25rem;
+      }
+    }
   `;
+  document.head.appendChild(style);
 
-  const modalContent = document.createElement('div');
-  modalContent.style.cssText = `
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    max-width: 600px;
-    width: 100%;
-    text-align: center;
-    font-family: "Segoe UI", sans-serif;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  // Tạo modal HTML
+  const modal = document.createElement("div");
+  modal.id = "winModal";
+  modal.className = "modal-overlay";
+  modal.innerHTML = `
+    <div class="modal-content">
+      <h2>OTT:</h2>
+      <p>
+        Âm vang Hội trại gọi mời<br />
+        Năm năm nguyên bản bay theo mây trời<br />
+        Cháy lên tiếng hát rạng ngời<br />
+        Đoàn viên háo hức ngập trời hân hoan
+      </p>
+      <button onclick="closeWinModal()">OK</button>
+    </div>
   `;
-
-  const h2 = document.createElement('h2');
-  h2.textContent = 'OTT:';
-  h2.style.color = '#333';
-  h2.style.marginBottom = '1rem';
-
-  const p = document.createElement('p');
-  p.style.whiteSpace = 'pre-line';
-  p.style.lineHeight = '1.6';
-  p.style.color = '#555';
-  p.style.fontSize = '1rem';
-  p.textContent = `Âm vang Hội trại gọi mời
-Năm năm nguyên bản bay theo mây trời
-Cháy lên tiếng hát rạng ngời
-Đoàn viên háo hức ngập trời hân hoan`;
-
-  const btn = document.createElement('button');
-  btn.textContent = 'OK';
-  btn.style.cssText = `
-    margin-top: 1.5rem;
-    padding: 0.6rem 1.5rem;
-    background-color: #2196f3;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-  `;
-  btn.addEventListener('click', closeWinModal);
-
-  modalContent.appendChild(h2);
-  modalContent.appendChild(p);
-  modalContent.appendChild(btn);
-  modalOverlay.appendChild(modalContent);
-  document.body.appendChild(modalOverlay);
+  document.body.appendChild(modal);
 }
 
-// Hàm đóng modal
+function showWinModal() {
+  setTimeout(() => {
+     createWinModal();
+  const modal = document.getElementById("winModal");
+  
+  if (modal) modal.style.display = "flex";
+  }, 1500);
+ initGame();
+}
+
 function closeWinModal() {
-  const modal = document.getElementById('winModal');
-  if (modal) modal.style.display = 'none';
+  const modal = document.getElementById("winModal");
+  if (modal) modal.style.display = "none";
+  initGame();
 }
 
-// Hàm mở modal
-function openWinModal() {
-  const modal = document.getElementById('winModal');
-  if (modal) modal.style.display = 'flex';
-}
 
 
 function drawBricks() {
@@ -264,8 +279,7 @@ function checkWin() {
   if (allBroken) {
     isRunning = false;
     setTimeout(() => {
-      openWinModal();
-      initGame();
+      showWinModal();
     }, 100);
   }
 } 
