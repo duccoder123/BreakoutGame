@@ -48,12 +48,29 @@ canvas {
   border-radius: 10px; /* Gợi ý: bo góc cho đẹp hơn */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Gợi ý: bóng đổ */
 }
-#startBtn {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin-top: 10px;
-  cursor: pointer;
-}
+#gameCanvas {
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 3 / 4;
+    background: #000;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  }
+
+  #startBtn {
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #startBtn:hover {
+    background-color: #1976d2;
+  }
 /* Modal overlay đã đặt flexbox căn giữa */
 #winModal {
   display: none;
