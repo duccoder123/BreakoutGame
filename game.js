@@ -1,5 +1,13 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
+function showWinModal() {
+  document.getElementById("winModal").style.display = "flex";
+}
+
+function closeWinModal() {
+  document.getElementById("winModal").style.display = "none";
+  initGame();
+}
 
 function resizeCanvas() {
   canvas.width = canvas.clientWidth;
@@ -28,7 +36,7 @@ const config = {
   rows: 5,
   cols: 5,
   paddleHeight: 10,
-  paddleSpeed: 6,
+  paddleSpeed: 8,
 };
 
 let ball, paddle, bricks, charPool, isRunning;
@@ -40,7 +48,7 @@ function initGame() {
   config.brickWidth = canvas.width / config.cols;
   config.brickHeight = canvas.height / 20;
   config.paddleWidth = canvas.width / 5;
-  config.ballSpeed = canvas.width / 130;
+  config.ballSpeed = canvas.width / 70;
 
   // Ball
   ball = {
@@ -62,21 +70,28 @@ function initGame() {
 
   // Bricks
   bricks = [];
-  charPool = shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""));
+  const charMatrix = [
+  ["KR", "LU", "KR", "FA", "D"],
+  ["5D", "TX", "SV", "U",  "5O"],
+  ["RM", "LY", "Q",  "DU", "1"],
+  ["KN", "WW", "LN", "I5", "TO"],
+  ["VE", "3",  "LN", "LN", "KD"],
+];
 
   for (let r = 0; r < config.rows; r++) {
-    for (let c = 0; c < config.cols; c++) {
-      const hits = Math.floor(Math.random() * 3) + 1;
-      const char = charPool.pop();
-      bricks.push({
-        x: c * config.brickWidth,
-        y: r * config.brickHeight,
-        hits,
-        broken: false,
-        char,
-      });
-    }
+  for (let c = 0; c < config.cols; c++) {
+    const hits = Math.floor(Math.random() * 3) + 1;
+    const char = charMatrix[r][c] || ""; // lấy ký tự từ bảng
+    bricks.push({
+      x: c * config.brickWidth,
+      y: r * config.brickHeight,
+      hits,
+      broken: false,
+      char,
+    });
   }
+}
+
 
   draw();
 }
@@ -146,6 +161,7 @@ function moveBall() {
         brick.hits--;
         if (brick.hits <= 0) {
           brick.broken = true;
+          checkWin();
         }
       }
     }
@@ -166,6 +182,18 @@ function draw() {
   drawBall();
   drawPaddle();
 }
+
+function checkWin() {
+  const allBroken = bricks.every((brick) => brick.broken);
+  if (allBroken) {
+    isRunning = false;
+    setTimeout(() => {
+      showWinModal();
+      initGame();
+    }, 100);
+  }
+} 
+
 
 function update() {
   if (!isRunning) return;
