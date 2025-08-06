@@ -176,7 +176,6 @@ function showWinModal() {
   
   if (modal) modal.style.display = "flex";
   }, 1500);
- initGame();
 }
 
 function closeWinModal() {
