@@ -9,6 +9,32 @@ body {
   background: #f5f5f5;
   display: flex;
   flex-direction: column;
+  #gameContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    height: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  #gameHeader {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  #gameHeader h1 {
+    font-size: 1.8rem;
+    margin: 0;
+    color: #2e7d32;
+  }
+
+  #gameHeader h2 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0 0 0;
+    color: #1565c0;
+  }
   align-items: center;
   font-family: sans-serif;
 }
