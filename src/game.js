@@ -1,7 +1,6 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-
 function resizeCanvas() {
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
@@ -41,7 +40,7 @@ function initGame() {
   config.brickWidth = canvas.width / config.cols;
   config.brickHeight = canvas.height / 20;
   config.paddleWidth = canvas.width / 5;
-  config.ballSpeed = canvas.width / 80;
+  config.ballSpeed = canvas.width / 130;
 
   // Ball
   ball = {
@@ -64,32 +63,32 @@ function initGame() {
   // Bricks
   bricks = [];
   const charMatrix = [
-  ["KR", "LU", "KR", "FA", "D"],
-  ["5D", "TX", "SV", "U",  "5O"],
-  ["RM", "LY", "Q",  "DU", "1"],
-  ["KN", "WW", "LN", "I5", "TO"],
-  ["VE", "3",  "LN", "LN", "KD"],
-];
+    ["CAC", "SCU", "MJK", "HUD", "AAN"],
+    ["CUW", "THU", "WCJ", "HIE", "ENJ"],
+    ["NHI", "EEM", "JVU", "JSO", "OS1"],
+    ["XAA", "YDU", "WNG", "JVI", "DEO"],
+    ["GIO", "WIST", "HIEE", "UJDD", "OOIJ"],
+  ];
 
   for (let r = 0; r < config.rows; r++) {
-  for (let c = 0; c < config.cols; c++) {
-    const hits = Math.floor(Math.random() * 3) + 1;
-    const char = charMatrix[r][c] || ""; // lấy ký tự từ bảng
-    bricks.push({
-      x: c * config.brickWidth,
-      y: r * config.brickHeight,
-      hits,
-      broken: false,
-      char,
-    });
+    for (let c = 0; c < config.cols; c++) {
+      const hits = Math.floor(Math.random() * 3) + 1;
+      const char = charMatrix[r][c] || ""; // lấy ký tự từ bảng
+      bricks.push({
+        x: c * config.brickWidth,
+        y: r * config.brickHeight,
+        hits,
+        broken: false,
+        char,
+      });
+    }
   }
-}
-
 
   draw();
 }
 // Modal
 function createWinModal() {
+  if (document.getElementById("winModal")) return; // Ngăn tạo lại nhiều lần
   // Tạo thẻ style cho modal
   const style = document.createElement("style");
   style.textContent = `
@@ -163,41 +162,56 @@ function createWinModal() {
         Cháy lên tiếng hát rạng ngời<br />
         Đoàn viên háo hức ngập trời hân hoan
       </p>
-      <button onclick="closeWinModal()">OK</button>
+      <button id="okBtn" >OK</button>
     </div>
   `;
   document.body.appendChild(modal);
+  document.getElementById("okBtn").addEventListener("click", () => {
+    closeWinModal();
+    initGame();
+    startGame();
+  });
 }
 
 function showWinModal() {
   setTimeout(() => {
-     createWinModal();
-  const modal = document.getElementById("winModal");
-  
-  if (modal) modal.style.display = "flex";
+    createWinModal();
+    const modal = document.getElementById("winModal");
+    if (modal) {
+      modal.classList.add("show");
+    }
   }, 1500);
 }
 
 function closeWinModal() {
   const modal = document.getElementById("winModal");
-  if (modal) modal.style.display = "none";
-  initGame();
+  if (modal) {
+    modal.classList.remove("show");
+  }
 }
-
-
 
 function drawBricks() {
   bricks.forEach((brick) => {
     if (!brick.broken) {
-      ctx.fillStyle = `rgb(${255 - brick.hits * 60}, ${100 + brick.hits * 50}, 200)`;
+      ctx.fillStyle = `rgb(${255 - brick.hits * 60}, ${
+        100 + brick.hits * 50
+      }, 200)`;
       ctx.fillRect(brick.x, brick.y, config.brickWidth, config.brickHeight);
       ctx.fillStyle = "#fff";
       ctx.font = `${config.brickHeight / 2}px sans-serif`;
-      ctx.fillText(brick.hits, brick.x + config.brickWidth / 2 - 5, brick.y + config.brickHeight / 2 + 5);
+      ctx.fillText(
+        brick.hits,
+        brick.x + config.brickWidth / 2 - 5,
+        brick.y + config.brickHeight / 2 + 5
+      );
     } else {
       ctx.fillStyle = "#fff";
       ctx.font = `${config.brickHeight / 1.5}px sans-serif`;
-      ctx.fillText(brick.char, brick.x + config.brickWidth / 2 - 6, brick.y + config.brickHeight / 2 + 6);
+      ctx.fillText(
+        brick.char,
+        brick.x + config.brickWidth / 2 - 6,
+        brick.y + config.brickHeight / 2 + 6
+      );
     }
   });
 }
@@ -220,7 +234,8 @@ function moveBall() {
   ball.y += ball.dy;
 
   // Wall collision
-  if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) ball.dx *= -1;
+  if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0)
+    ball.dx *= -1;
   if (ball.y - ball.radius < 0) ball.dy *= -1;
 
   // Paddle collision
@@ -278,11 +293,10 @@ function checkWin() {
   if (allBroken) {
     isRunning = false;
     setTimeout(() => {
-      showWinModal();
+      // showWinModal();
     }, 100);
   }
-} 
-
+}
 
 function update() {
   if (!isRunning) return;
